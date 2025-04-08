@@ -1,11 +1,22 @@
 #!/usr/bin/env python3
 import Adafruit_DHT
-
+import time
+import csv
+import os
+from datetime import datetime
 
 SENSOR = Adafruit_DHT.DHT11
 PIN = 4
 LOG_FILE = "greenhouse_data.csv"
 INTERVAL = 300  # seconds between readings
+
+
+if not os.path.exists(LOG_FILE):
+    with open(LOG_FILE, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["timestamp", "temperature_c", "temperature_f", "humidity"])
+    print(f"Created new log file: {LOG_FILE}")
+
 
 def read_sensor():
     """Read data from DHT11 sensor"""
@@ -20,3 +31,30 @@ def read_sensor():
             "valid": True,
         }
     return {"valid": False}
+
+def log_data(data):
+    """Log data to CSV file"""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(LOG_FILE, "a", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow([timestamp, data["temp_c"], data["temp_f"], data["humidity"]])
+    print(f"Logged data at {timestamp}: {data['temp_c']}°C, {data['humidity']}%")
+
+
+print(f"Starting greenhouse monitoring. Logging every {INTERVAL} seconds.")
+print(f"Data is being saved to {LOG_FILE}")
+
+try:
+    while True:
+        result = read_sensor()
+
+        if result["valid"]:
+            log_data(result)
+        else:
+            print("Failed to get valid reading from sensor")
+
+        time.sleep(INTERVAL)
+
+except KeyboardInterrupt:
+    print("\nMonitoring stopped by user")
