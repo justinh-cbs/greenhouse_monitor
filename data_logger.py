@@ -32,6 +32,7 @@ def read_sensor():
         }
     return {"valid": False}
 
+
 def log_data(data):
     """Log data to CSV file"""
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -58,3 +59,5 @@ try:
 
 except KeyboardInterrupt:
     print("\nMonitoring stopped by user")
+except Exception as e:
+    print(f"Error: {e}")
