@@ -10,3 +10,14 @@ Install the Adafruit library for the sensor:
 Give the setup script permission:  
 `chmod +x setup.sh`  
 `./setup.sh`  
+
+This will:  
+  
+Install all required dependencies  
+Make the scripts executable  
+Set up systemd services to run the data logger and dashboard automatically  
+Start both services  
+
+To access the dashboard:  
+Open a web browser and navigate to `http://<pi_ip_address>:8080`  
+
