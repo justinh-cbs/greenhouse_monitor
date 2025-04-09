@@ -56,7 +56,7 @@ IP_ADDRESS=$(hostname -I | awk '{print $1}')
 
 echo "Setup complete!"
 echo "Data logger and dashboard services have been installed and started."
-echo "You can view your dashboard at http://$IP_ADDRESS:8050"
+echo "You can view your dashboard at http://$IP_ADDRESS:8080"
 echo "To check service status, you can use:"
 echo "  sudo systemctl status greenhouse-logger.service"
 echo "  sudo systemctl status greenhouse-dashboard.service"
